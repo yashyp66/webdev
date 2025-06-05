@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Mid-Day Meal Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background-color: #343a40;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      background-color: #495057;
+      padding: 0.5rem;
+      flex-shrink: 0;
+    }
+    nav button {
+      padding: 0.5rem 1rem;
+      background: #6c757d;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s;
+      font-weight: 600;
+    }
+    nav button:hover {
+      background: #adb5bd;
+      color: #343a40;
+    }
+    .container {
+      display: none;
+      padding: 1.5rem;
+      flex-grow: 1;
+      overflow-y: auto;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 95%;
+      box-sizing: border-box;
+    }
+    form label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+      color: #343a40;
+    }
+    .rating-group {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .rating-group input[type="radio"] {
+      display: none;
+    }
+    .rating-group label {
+      background: #dee2e6;
+      padding: 0.5rem;
+      border-radius: 50%;
+      width: 2rem;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 600;
+      user-select: none;
+      transition: background 0.3s, color 0.3s;
+    }
+    .rating-group input[type="radio"]:checked + label {
+      background: #007bff;
+      color: white;
+    }
+    button[type="submit"] {
+      margin-top: 1.5rem;
+      padding: 0.6rem 1.2rem;
+      font-weight: 700;
+      font-size: 1rem;
+      background-color: #007bff;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    .export-btn {
+      margin-top: 1rem;
+      background: #28a745;
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    .export-btn:hover {
+      background: #1e7e34;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: white;
+      font-size: 0.9rem;
+      min-width: 600px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: center;
+    }
+    #chartContainer {
+      margin-top: 2rem;
+      overflow-x: auto;
+    }
+    /* Dashboard stats cards */
+    .stats-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 1rem 0 2rem;
+      justify-content: center;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      width: 220px;
+      text-align: center;
+      transition: transform 0.3s ease;
+      cursor: default;
+      user-select: none;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    }
+    .card h3 {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #007bff;
+    }
+    .card p {
+      font-size: 2.4rem;
+      margin: 0.5rem 0 1rem;
+      font-weight: 700;
+      color: #343a40;
+    }
+    .progress-bar {
+      background: #e9ecef;
+      height: 12px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    .progress-bar > div {
+      height: 100%;
+      background: #007bff;
+      width: 0%;
+      transition: width 1.2s ease;
+      border-radius: 10px;
+    }
+    #barTaste { background: #28a745; }
+    #barOverall { background: #ffc107; }
+    #barAppearance { background: #17a2b8; }
+
+    /* Responsive and orientation */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+      .stats-cards {
+        justify-content: center;
+      }
+      .card {
+        width: 90%;
+      }
+      table {
+        font-size: 0.8rem;
+      }
+    }
+    @media (orientation: landscape) and (max-height: 500px) {
+      nav {
+        flex-direction: row;
+        justify-content: space-around;
+      }
+      .container {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mid-Day Meal Monitoring</h1>
+  </header>
+  <nav>
+    <button onclick="showSection('dashboard')">Dashboard</button>
+    <button onclick="showSection('form')">Enter Item</button>
+    <button onclick="showSection('report')">View Report</button>
+  </nav>
+
+  <div class="container" id="dashboardContainer">
+    <h2>Welcome to the Mid-Day Meal Monitoring Dashboard</h2>
+    <p>Use the navigation above to manage entries and view reports.</p>
+
+    <div class="stats-cards">
+      <div class="card">
+        <h3>Total Entries</h3>
+        <p id="totalEntries">0</p>
+      </div>
+      <div class="card">
+        <h3>Average Appearance</h3>
+        <p id="avgAppearance">0</p>
+        <div class="progress-bar"><div id="barAppearance"></div></div>
+      </div>
+      <div class="card">
+        <h3>Average Taste</h3>
+        <p id="avgTaste">0</p>
+        <div class="progress-bar"><div id="barTaste"></div></div>
+      </div>
+      <div class="card">
+        <h3>Overall Average</h3>
+        <p id="avgOverall">0</p>
+        <div class="progress-bar"><div id="barOverall"></div></div>
+      </div>
+    </div>
+
+    <div id="chartContainer">
+      <canvas id="feedbackChart" height="100"></canvas>
+    </div>
+  </div>
+
+  <div class="container" id="formContainer">
+    <form id="mealForm">
+      <label>Program: <input type="text" name="program" required></label>
+      <label>Item: <input type="text" name="item" required></label>
+      <label>Batch: <input type="text" name="batch" required></label>
+      <label>Person Name: <input type="text" name="person" required></label>
+
+      <label>Appearance:</label>
+      <div class="rating-group" id="appearanceRating"></div>
+
+      <label>Taste:</label>
+      <div class="rating-group" id="tasteRating"></div>
+
+      <label>Smell:</label>
+      <div class="rating-group" id="smellRating"></div>
+
+      <label>Texture:</label>
+      <div class="rating-group" id="textureRating"></div>
+
+      <label>Temperature:</label>
+      <div class="rating-group" id="temperatureRating"></div>
+
+      <label>Quantity:</label>
+      <div class="rating-group" id="quantityRating"></div>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <div class="container" id="reportContainer">
+    <h2>Submitted Food Items</h2>
+    <button class="export-btn" onclick="exportToCSV()">Export as CSV</button>
+    <table>
+      <thead>
+        <tr>
+          <th>Program</th>
+          <th>Item</th>
+          <th>Batch</th>
+          <th>Person</th>
+          <th>Appearance</th>
+          <th>Taste</th>
+          <th>Smell</th>
+          <th>Texture</th>
+          <th>Temperature</th>
+          <th>Quantity</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody id="reportBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const form = document.getElementById("mealForm");
+    const reportBody = document.getElementById("reportBody");
+    const formContainer = document.getElementById("formContainer");
+    const reportContainer = document.getElementById("reportContainer");
+    const dashboardContainer = document.getElementById("dashboardContainer");
+
+    const showSection = (section) => {
+      formContainer.style.display = section === 'form' ? 'block' : 'none';
+      reportContainer.style.display = section === 'report' ? 'block' : 'none';
+      dashboardContainer.style.display = section === 'dashboard' ? 'block' : 'none';
+      if (section === 'dashboard') renderChartAndStats();
+    };
+
+    const createRatingBubbles = (name, containerId) => {
+      const container = document.getElementById(containerId);
+      for (let i = 1; i <= 10; i++) {
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.id = `${name}${i}`;
+        input.name = name;
+        input.value = i;
+
+        const label = document.createElement('label');
+        label.htmlFor = input.id;
+        label.textContent = i;
+
+        container.appendChild(input);
+        container.appendChild(label);
+      }
+    };
+
+    ['appearance', 'taste', 'smell', 'texture', 'temperature', 'quantity'].forEach(param => {
+      createRatingBubbles(param, `${param}Rating`);
+    });
+
+    const dataEntries = [];
+
+    function formatTimestamp(date) {
+      return date.toLocaleString();
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const timestamp = new Date();
+      const entry = {
+        program: formData.get("program"),
+        item: formData.get("item"),
+        batch: formData.get("batch"),
+        person: formData.get("person"),
+        appearance: Number(formData.get("appearance")),
+        taste: Number(formData.get("taste")),
+        smell: Number(formData.get("smell")),
+        texture: Number(formData.get("texture")),
+        temperature: Number(formData.get("temperature")),
+        quantity: Number(formData.get("quantity")),
+        timestamp: timestamp
+      };
+
+      dataEntries.push(entry);
+
+      // Update report table
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${entry.program}</td><td>${entry.item}</td><td>${entry.batch}</td><td>${entry.person}</td><td>${entry.appearance}</td><td>${entry.taste}</td><td>${entry.smell}</td><td>${entry.texture}</td><td>${entry.temperature}</td><td>${entry.quantity}</td><td>${formatTimestamp(entry.timestamp)}</td>`;
+      reportBody.appendChild(tr);
+
+      form.reset();
+      showSection('report');
+      renderChartAndStats();
+    });
+
+    function exportToCSV() {
+      let csvContent = "data:text/csv;charset=utf-8,Program,Item,Batch,Person,Appearance,Taste,Smell,Texture,Temperature,Quantity,Timestamp\n";
+      dataEntries.forEach(row => {
+        csvContent += `${row.program},${row.item},${row.batch},${row.person},${row.appearance},${row.taste},${row.smell},${row.texture},${row.temperature},${row.quantity},"${formatTimestamp(row.timestamp)}"\n`;
+      });
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "meal_feedback_report.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    let chartInstance = null;
+    function renderChart() {
+      const ctx = document.getElementById('feedbackChart').getContext('2d');
+      const labels = dataEntries.map((entry, index) => `${entry.item} (${index + 1})`);
+      const tasteData = dataEntries.map(entry => entry.taste);
+      const appearanceData = dataEntries.map(entry => entry.appearance);
+
+      if (chartInstance) chartInstance.destroy();
+
+      chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Taste',
+              data: tasteData,
+              backgroundColor: 'rgba(40, 167, 69, 0.6)'
+            },
+            {
+              label: 'Appearance',
+              data: appearanceData,
+              backgroundColor: 'rgba(0, 123, 255, 0.6)'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 10
+            }
+          }
+        }
+      });
+    }
+
+    function updateDashboardStats() {
+      const totalEntries = dataEntries.length;
+      const sumAppearance = dataEntries.reduce((a,b) => a + b.appearance, 0);
+      const sumTaste = dataEntries.reduce((a,b) => a + b.taste, 0);
+      const sumAll = dataEntries.reduce((a,b) =>
+        a + b.appearance + b.taste + b.smell + b.texture + b.temperature + b.quantity
+        , 0);
+
+      const avgAppearance = totalEntries ? (sumAppearance / totalEntries).toFixed(1) : 0;
+      const avgTaste = totalEntries ? (sumTaste / totalEntries).toFixed(1) : 0;
+      const avgOverall = totalEntries ? (sumAll / (totalEntries * 6)).toFixed(1) : 0;
+
+      document.getElementById('totalEntries').textContent = totalEntries;
+      document.getElementById('avgAppearance').textContent = avgAppearance;
+      document.getElementById('avgTaste').textContent = avgTaste;
+      document.getElementById('avgOverall').textContent = avgOverall;
+
+      document.getElementById('barAppearance').style.width = avgAppearance * 10 + '%';
+      document.getElementById('barTaste').style.width = avgTaste * 10 + '%';
+      document.getElementById('barOverall').style.width = avgOverall * 10 + '%';
+    }
+
+    function renderChartAndStats() {
+      updateDashboardStats();
+      renderChart();
+    }
+
+    // Initially show dashboard
+    showSection('dashboard');
+  </script>
+</body>
+</html>
