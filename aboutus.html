@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Uniqueness</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* ================================================= */
+        /* Color Palette & Global Styles */
+        /* ================================================= */
+        :root {
+            --color-primary-teal: #008080;
+            --color-dark-teal: #004d4d;
+            --color-light-teal-bg: #f0fafa;
+            --color-text-dark: #333;
+            --color-text-medium: #555;
+            --color-background-light: #ffffff;
+            --color-border: #e0e0e0;
+            --transition-speed: 500ms;
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+            color: var(--color-text-medium);
+            background-color: var(--color-background-light);
+        }
+
+        /* ================================================= */
+        /* PRE-LOADER ANIMATION */
+        /* ================================================= */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-background-light);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--color-border);
+            border-top: 5px solid var(--color-primary-teal);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--color-dark-teal);
+            margin-bottom: 0.75em;
+            text-align: center;
+        }
+
+        h1 { font-size: 3em; }
+        h2 { font-size: 2.5em; }
+        h3 { font-size: 1.8em; color: var(--color-primary-teal); }
+        
+        section {
+            padding: 100px 0;
+            overflow: hidden; /* Prevent animations from showing scrollbars */
+        }
+
+        p {
+            margin-bottom: 1em;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ================================================= */
+        /* Header and Navigation */
+        /* ================================================= */
+        header {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 5%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: padding 0.3s ease;
+        }
+        
+        header.scrolled {
+            padding: 10px 5%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+            height: 65px;
+            transition: height 0.3s ease;
+        }
+
+        header.scrolled .logo img {
+            height: 50px;
+        }
+        
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--color-text-medium);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--color-primary-teal);
+            transition: width 0.3s ease-in-out;
+        }
+
+        nav a:hover {
+            color: var(--color-primary-teal);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .nav-right .login-button {
+            color: var(--color-primary-teal);
+            border: 2px solid var(--color-primary-teal);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-right .login-button:hover {
+            background-color: var(--color-primary-teal);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ================================================= */
+        /* Hero Section */
+        /* ================================================= */
+        .hero-section {
+            background-color: var(--color-light-teal-bg);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.15;
+            transform: scale(1.1);
+            animation: slowZoom 40s infinite alternate ease-in-out;
+        }
+
+        @keyframes slowZoom {
+            from { transform: scale(1.1); }
+            to { transform: scale(1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content .fyl {
+            font-size: 4.5em;
+            margin-bottom: 0.2em;
+            color: var(--color-dark-teal);
+            /* Initial animation state */
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUP 0.8s 0.3s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .hero-content p {
+            font-size: 1.2em;
+            color: var(--color-text-dark);
+            max-width: 500px;
+            /* Initial animation state */
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUP 0.8s 0.6s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes fadeInUP {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ================================================= */
+        /* On-Scroll Animations */
+        /* ================================================= */
+        .hidden {
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .slide-in-left { transform: translateX(-50px); }
+        .slide-in-right { transform: translateX(50px); }
+        .fade-in-up { transform: translateY(30px); }
+        .show {
+            opacity: 1;
+            transform: translateX(0) translateY(0);
+        }
+
+        /* ================================================= */
+        /* About Us & Content Sections */
+        /* ================================================= */
+        .section-content-block {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .section-content-block:nth-child(even) { /* Swapped to match visual flow */
+            flex-direction: row-reverse;
+        }
+
+        .text-content {
+            flex: 1;
+            min-width: 300px;
+            text-align: left;
+        }
+
+        .image-content {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+        
+        .image-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .image-content img:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .text-content ul { list-style: none; padding-left: 0; }
+        
+        .text-content ul li {
+            padding-left: 25px;
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .text-content ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--color-primary-teal);
+            font-weight: bold;
+        }
+        
+        .our-commitment-section, .our-team-section {
+            background-color: var(--color-light-teal-bg);
+        }
+
+        .vision-text {
+            font-size: 1.5em;
+            font-style: italic;
+            color: var(--color-text-dark);
+            text-align: center;
+            max-width: 600px;
+            margin-bottom: 60px;
+        }
+        
+        .team-members {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+
+        .team-member {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+
+        .team-members img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .team-member:hover img {
+            box-shadow: 0 8px 25px rgba(0, 128, 128, 0.3);
+        }
+
+        /* ================================================= */
+        /* Footer */
+        /* ================================================= */
+        footer {
+            background-color: var(--color-dark-teal);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 60px 5%;
+            font-size: 0.9em;
+        }
+
+        .footer-container { max-width: 1200px; margin: 0 auto; }
+        
+        .footer-top {
+            text-align: center;
+            padding-bottom: 40px;
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-top h4 { color: white; font-size: 1.8em; }
+        
+        .newsletter-form { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
+
+        .newsletter-form input {
+            padding: 12px 20px;
+            border: 1px solid transparent;
+            border-radius: 50px;
+            width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: border-color 0.3s ease;
+        }
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: var(--color-primary-teal);
+        }
+        .newsletter-form input::placeholder { color: rgba(255, 255, 255, 0.7); }
+        
+        .newsletter-form button {
+            background-color: var(--color-primary-teal);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .newsletter-form button:hover {
+            background-color: #009a9a;
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: left; }
+        .footer-col h5 { color: white; font-size: 1.1em; margin-bottom: 15px; }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col li { margin-bottom: 8px; }
+        .footer-col a { color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.3s ease, padding-left 0.3s ease; }
+        .footer-col a:hover { color: white; padding-left: 5px; }
+
+        /* Social Media Styles */
+        .social-media {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .social-media a {
+            margin: 0 15px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .social-media a:hover {
+            transform: translateY(-5px);
+        }
+
+        .social-media img {
+            width: 30px;
+            height: 30px;
+            filter: brightness(0) invert(1); /* Makes icons white for dark background */
+            transition: filter 0.3s ease;
+        }
+
+        .social-media a:hover img {
+            filter: brightness(1) invert(0); /* Reverts to original colors on hover */
+        }
+
+        /* ================================================= */
+        /* Back to Top Button */
+        /* ================================================= */
+        #back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--color-primary-teal);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            z-index: 999;
+        }
+
+        #back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        #back-to-top:hover {
+            background-color: var(--color-dark-teal);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            h1 { font-size: 2.5em; }
+            h2 { font-size: 2.2em; }
+            .section-content-block, .section-content-block:nth-child(even) {
+                flex-direction: column;
+                text-align: center;
+            }
+            .text-content { text-align: center; }
+            .text-content ul { display: inline-block; text-align: left; }
+        }
+        @media (max-width: 768px) {
+            header {
+                padding: 10px 5%;
+            }
+            .logo img { height: 50px !important; } /* Lock size on mobile */
+            nav { display: none; } /* Hide nav on mobile; a hamburger menu is the next step */
+            .navbar { justify-content: space-between; }
+            .newsletter-form { flex-direction: column; align-items: center; }
+            .newsletter-form input { width: 80%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
+
+    <header id="header">
+        <div class="navbar">
+            <a href="#" class="logo">
+                <img src="logo.png" alt="Find Your Uniqueness Logo">
+            </a>
+            <nav>
+                <ul>
+                   <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="schools.html">Schools</a></li>
+                <li><a href="cnslg.html">Counselling</a></li>
+                <li><a href="testimonials.html">Testimonials</a></li>
+                <li><a href="#">Contribution</a></li>
+                <li><a href="joa.html">Blog</a></li>
+                <li><a href="aboutus.html">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="nav-right">
+                <a href="login.html">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <img src="starybackground.png" alt="Starry background" class="hero-background-image">
+            <div class="hero-content">
+                <h1 class="fyl">Find Your Uniqueness</h1>
+                <p>You are a blessing on this earth. Hey! Smile from your heart.</p>
+            </div>
+        </section>
+
+        <section id="about-us" class="about-us-section">
+            <div class="container">
+                <h2 class="hidden fade-in-up">About Us</h2>
+                <p style="text-align:center;" class="hidden fade-in-up">Welcome to Find Your Uniqueness, a non-profit organization dedicated to the Rise of Consciousness. We believe in empowering individuals to address the grand challenges of our time.</p>
+
+                <div class="section-content-block">
+                    <div class="text-content hidden slide-in-left">
+                        <h3>Our Four Key Realms of Consciousness</h3>
+                        <ul>
+                            <li><strong>World Consciousness:</strong> Developing a global perspective to understand and address the interconnected challenges facing humanity.</li>
+                            <li><strong>Earth Consciousness:</strong> Promoting environmental stewardship and ethical activism to preserve our planet for future generations.</li>
+                            <li><strong>Spiritual Consciousness:</strong> Fostering inner growth through meditation, Yoga, and other spiritual practices to achieve personal enlightenment.</li>
+                            <li><strong>Supreme Consciousness:</strong> Encouraging the pursuit of higher wisdom and universal truths to transcend individual limitations.</li>
+                        </ul>
+                    </div>
+                    <div class="image-content hidden slide-in-right">
+                        <img src="cosmic.png" alt="Cosmic meditation illustration">
+                    </div>
+                </div>
+
+                <div class="section-content-block">
+                     <div class="text-content hidden slide-in-right">
+                        <h3>Our Holistic Approach</h3>
+                        <p>We offer a comprehensive range of services designed to nurture all aspects of an individual's life, from empathic counseling and guidance to wisdom-based educational programs and community building initiatives.</p>
+                    </div>
+                    <div class="image-content hidden slide-in-left">
+                        <img src="mountains.png" alt="Silhouette meditating on mountains">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="our-commitment-section">
+            <div class="container">
+                <h2 class="hidden fade-in-up">Our Commitment</h2>
+                <div class="section-content-block">
+                    <div class="text-content hidden slide-in-left">
+                        <p>We are committed to serving humanity in all possible ways, ensuring that our approach remains holistic and inclusive. By embracing love, empathy, and oneness, we guide individuals toward clarity and ease in their journey of self-discovery and personal growth.</p>
+                        <p>Join us and become part of a transformative movement that prioritizes connection and collaboration over competition.</p>
+                    </div>
+                    <div class="image-content hidden slide-in-right">
+                         <img src="lotusm.png" alt="Colorful lotus meditation image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="vision-mission-section">
+            <div class="container">
+                 <h2 class="hidden fade-in-up">Our Vision & Mission</h2>
+                 <p class="vision-text hidden fade-in-up">"FYU envisions to connect people with their TRUE/AUTHENTIC SELF."</p>
+                 <div class="section-content-block">
+                    <div class="text-content hidden slide-in-right">
+                       <h3>Our Mission</h3>
+                       <p>Our mission is to drive global transformation through experiential education, fostering the development of consciously engineered world leaders equipped to address the grand challenges of our time.</p>
+                    </div>
+                     <div class="image-content hidden slide-in-left">
+                         <img src="chakramedit.png" alt="Chakra meditation illustration">
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+        <section id="our-team" class="our-team-section">
+            <div class="container">
+                <h2 class="hidden fade-in-up">Our Team</h2>
+                <p style="text-align:center;" class="hidden fade-in-up">Meet the dedicated individuals guiding our mission.</p>
+                <div class="team-members">
+                    <div class="team-member hidden fade-in-up">
+                        <img src="teamm.png" alt="Team Member Placeholder">
+                    </div>
+                    <div class="team-member hidden fade-in-up" style="transition-delay: 100ms;">
+                        <img src="teamm.png" alt="Team Member Placeholder">
+                    </div>
+                    <div class="team-member hidden fade-in-up" style="transition-delay: 200ms;">
+                         <img src="teamm.png" alt="Team Member Placeholder">
+                    </div>
+                    <div class="team-member hidden fade-in-up" style="transition-delay: 300ms;">
+                        <img src="teamm.png" alt="Team Member Placeholder">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <h4>Stay Connected & Inspired</h4>
+                <p>Our newsletter offers weekly inspiration and updates on our transformative programs.</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Your E-Mail Address">
+                    <button>Subscribe</button>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-col">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Programs</a></li>
+                        <li><a href="#">Testimonials</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Resources</h5>
+                    <ul>
+                        <li><a href="#">Meditation Guides</a></li>
+                        <li><a href="#">Yoga Practices</a></li>
+                        <li><a href="#">Consciousness Articles</a></li>
+                        <li><a href="#">Wellness Tips</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Get Involved</h5>
+                    <ul>
+                        <li><a href="#">Contribute</a></li>
+                        <li><a href="#">Volunteer</a></li>
+                        <li><a href="#">Partnerships</a></li>
+                        <li><a href="#">Events</a></li>
+                    </ul>
+                </div>
+                 <div class="footer-col">
+                    <h5>Legal</h5>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="social-media">
+                <a href="#"><img src="fb.png" alt="Facebook"></a>
+                <a href="#"><img src="ig.jpg" alt="Instagram"></a>
+                <a href="#"><img src="pint.png" alt="Pinterest"></a>
+                <a href="#"><img src="yt.png" alt="YouTube"></a>
+            </div>
+        </div>
+    </footer>
+
+    <button id="back-to-top" title="Go to top">^</button>
+
+    <script>
+        // --- PRE-LOADER SCRIPT ---
+        const preloader = document.getElementById('preloader');
+        window.addEventListener('load', () => {
+            preloader.style.opacity = '0';
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 500); // Match this with CSS transition duration
+        });
+
+        // --- ON-SCROLL ANIMATION SCRIPT (INTERSECTION OBSERVER) ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, {
+            threshold: 0.1 // Trigger when 10% of the element is visible
+        });
+
+        const hiddenElements = document.querySelectorAll('.hidden');
+        hiddenElements.forEach((el) => observer.observe(el));
+
+        // --- HEADER SCROLL EFFECT SCRIPT ---
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // --- BACK TO TOP BUTTON SCRIPT ---
+        const backToTopButton = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+    </script>
+</body>
+</html>

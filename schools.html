@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Uniqueness - Schools & Counselling</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* ================================================= */
+        /* Color Palette & Global Styles */
+        /* ================================================= */
+        :root {
+            --color-primary-teal: #008080;
+            --color-dark-teal: #004d4d;
+            --color-light-teal: #eaf6f6;
+            --color-text-dark: #555;
+            --color-text-light: #fff;
+            --color-background-light: #f8f8f8;
+            --color-accent-dark: #0f1c24; /* Dark color from hero image */
+            --color-accent-yellow: #ffd700; /* Yellow from hero image */
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: var(--color-text-dark);
+            background-color: var(--color-background-light);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--color-primary-teal);
+            margin-bottom: 0.5em;
+        }
+
+        section {
+            padding: 80px 5%;
+        }
+
+        /* ================================================= */
+        /* Header and Navigation */
+        /* ================================================= */
+        header {
+            background-color: white;
+            padding: 20px 5%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 45px; /* Placeholder size */
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--color-text-dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: var(--color-primary-teal);
+        }
+
+        .nav-right a {
+            color: var(--color-primary-teal);
+            border: 2px solid var(--color-primary-teal);
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .nav-right a:hover {
+            background-color: var(--color-primary-teal);
+            color: white;
+        }
+        
+        /* ================================================= */
+        /* Hero/Home Section */
+        /* ================================================= */
+        .hero {
+            background-color: var(--color-background-light);
+            padding: 0 5% 0; /* Remove top padding to adjust for the wave */
+            position: relative;
+            text-align: center;
+        }
+
+        .hero-text {
+            padding-top: 50px;
+            text-align: left;
+        }
+        
+        .hero-text h1 {
+            font-size: 3em;
+            margin-bottom: 0;
+            color: var(--color-accent-dark);
+        }
+
+        .hero-image {
+            position: relative;
+            margin-top: 30px;
+            overflow: hidden;
+            background-color: var(--color-accent-dark);
+            z-index: 1;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            max-height: 400px; /* Adjust this value for desired height */
+            object-fit: contain; /* Ensures the image covers the area without distortion */
+            display: block;
+            margin-bottom: -5px; /* Fix image gap */
+        }
+
+        .schools-banner {
+            background-color: var(--color-light-teal);
+            padding: 20px 5%;
+        }
+        
+        .schools-banner h2 {
+            font-size: 3em;
+            color: var(--color-primary-teal);
+            margin: 0;
+        }
+
+        /* ================================================= */
+        /* Section Title Styling (used across all content blocks) */
+        /* ================================================= */
+        .zone-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 60px;
+            color: var(--color-accent-dark);
+        }
+
+        .school-title {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 40px;
+            color: var(--color-primary-teal);
+        }
+
+        .content-block {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin-bottom: 80px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content-block:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .text-content {
+            flex: 1;
+        }
+        
+        .image-container {
+            flex-shrink: 0;
+            max-width: 50%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ================================================= */
+        /* Counselling Page Sections */
+        /* ================================================= */
+        .counselling-hero {
+            background-color: var(--color-light-teal);
+            padding-top: 120px;
+        }
+        
+        .counselling-hero h1 {
+            font-size: 3.5em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .counselling-content-area {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .impact-section {
+            background-color: white;
+        }
+        
+        .impact-section h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+
+        .impact-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .impact-content ol {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .impact-content li {
+            margin-bottom: 20px;
+            padding-left: 0;
+        }
+        
+        .impact-content li strong {
+            color: var(--color-primary-teal);
+        }
+
+        .services-grid {
+            background-color: var(--color-background-light);
+            text-align: center;
+            padding-bottom: 120px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        .grid-item {
+            background-color: var(--color-light-teal);
+            padding: 60px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .grid-item h2 {
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        .numerology-section {
+            padding-top: 0;
+            padding-bottom: 80px;
+        }
+
+        .numerology-box {
+            background-color: var(--color-light-teal);
+            padding: 80px;
+            border-radius: 15px;
+            max-width: 450px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        /* ================================================= */
+        /* Footer and Newsletter (German text retained from images) */
+        /* ================================================= */
+        .newsletter-section {
+            background-color: var(--color-primary-teal);
+            color: white;
+            text-align: center;
+            padding: 60px 5%;
+        }
+
+        .newsletter-section h3 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            color: white;
+        }
+
+        .newsletter-section p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .newsletter-section form {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .newsletter-section input {
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: none;
+            width: 300px;
+            font-size: 1em;
+        }
+
+        .newsletter-section button {
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            background-color: white;
+            color: var(--color-primary-teal);
+            font-weight: bold;
+            font-size: 1em;
+            transition: transform 0.2s ease;
+        }
+        
+        footer {
+            background-color: var(--color-dark-teal);
+            color: var(--color-text-light);
+            padding: 60px 5%;
+            font-size: 0.9em;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .footer-links h4 {
+            color: white;
+            font-size: 1.2em;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 5px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            line-height: 2;
+        }
+        
+        .footer-links a, .footer-links li {
+            text-decoration: none;
+            color: var(--color-text-light);
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .social-media {
+            text-align: center;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 40px;
+        }
+
+        .social-media a {
+            margin: 0 12px;
+            display: inline-block;
+        }
+        
+        .social-media img {
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            background-color: white; /* To make social icons look similar to the image */
+            padding: 5px;
+        }
+        
+        /* ================================================= */
+        /* Responsive Design */
+        /* ================================================= */
+        @media (max-width: 1024px) {
+            .content-block, .content-block:nth-child(even) {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .image-container {
+                max-width: 80%;
+            }
+            
+            .impact-content {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .impact-content .text-list {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5em;
+            }
+            
+            .schools-banner h2 {
+                font-size: 2em;
+            }
+            
+            .footer-links {
+                justify-content: flex-start;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="logo.png" alt="Find Your Uniqueness Logo">
+            </div>
+            <ul>
+                 <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="schools.html">Schools</a></li>
+                <li><a href="cnslg.html">Counselling</a></li>
+                <li><a href="testimonials.html">Testimonials</a></li>
+                <li><a href="#">Contribution</a></li>
+                <li><a href="joa.html">Blog</a></li>
+                <li><a href="aboutus.html">Contact Us</a></li>
+            </ul>
+            <div class="nav-right">
+                <a href="login.html">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-text">
+                <h1>FYU</h1>
+                <p>You are a blessing on this earth</p>
+                <p>Hey! Smile from your heart.</p>
+            </div>
+            <div class="hero-image">
+                <img src="wings.jpg" alt="Person meditating with wings and sunburst effect">
+            </div>
+            <div class="schools-banner">
+                <h2>Schools of Awakening</h2>
+            </div>
+        </section>
+
+        <section class="schools" id="schools">
+            <h2 class="zone-title">World Consciousness Zone</h2>
+            
+            <h3 class="school-title">Startup Hub: School of Conscious Entrepreneurship</h3>
+            <div class="content-block">
+                <div class="text-content">
+                    <p>Our **Startup Hub** is an innovation center designed to foster entrepreneurship and conscious business practices. Equipped with state-of-the-art facilities, this space encourages collaboration among visionaries who aim to create solutions for global challenges. Workshops, mentorship programs, and networking events are regularly organized to support budding entrepreneurs in launching ventures that prioritize **sustainability, ethics, and social responsibility**. Know more about it here.</p>
+                </div>
+                <div class="image-container">
+                    <img src="lightblub.png" alt="Illustration of person meditating with charts, gears, and a lightbulb">
+                </div>
+            </div>
+
+            <h3 class="school-title">School of Arts and Creativity</h3>
+            <div class="content-block">
+                <div class="text-content">
+                    <h4>1. Artist's Colony:</h4> 
+                    <p>The Artist's Colony is a vibrant community space for artists of all disciplines. Here, creativity flourishes through collaborative projects, exhibitions, and performances that address societal issues and promote cultural understanding. The colony includes studios, galleries, and performance areas, providing artists with the resources they need to express their visions and inspire change.</p>
+                    <h4>2. Maker's Space:</h4> 
+                    <p>Our Maker's Space is a creative workshop equipped with tools and materials for inventors, designers, and hobbyists. This hands-on environment fosters innovation and sustainable creation. Regular classes and collaborative projects help members learn new skills and bring their ideas to life in an ethical and environmentally conscious manner.</p>
+                </div>
+                <div class="image-container">
+                    <img src="meditating_with_bright.png" alt="Illustration of person meditating with bright light">
+                    <img src="starybackground.png" alt="Illustration of person meditating in a starry background">
+                </div>
+            </div>
+
+            <h3 class="school-title">School of Awakened Politics (SAP)</h3>
+            <div class="content-block">
+                <div class="text-content">
+                    <p>The **Politics Awareness Center** promotes political consciousness by encouraging dialogue, education, and activism. This center hosts seminars, discussions, and training programs aimed at developing transparent, accountable, and inclusive leaders. It serves as a platform for individuals committed to making a positive impact through conscious governance.</p>
+                </div>
+                <div class="image-container">
+                    <img src="lightblub.png" alt="Illustration of a small meditating monk with a lightbulb idea">
+                </div>
+            </div>
+
+            <h3 class="school-title">School of Ethical Technology</h3>
+            <div class="content-block">
+                <div class="text-content">
+                    <p>The **School of Ethical Technology** is an initiative by Find Your Uniqueness (FYU) dedicated to aligning technological advancement with human values, consciousness, and ethical responsibility. It seeks to nurture tech creators and users who innovate with awareness, ensuring that digital tools serve the well-being of individuals, society, and the planet. This school explores the intersection of technology, ethics, inner leadership, and sustainability – encouraging mindful innovation, responsible digital behavior, and conscious tech-based solutions for global transformation.</p>
+                </div>
+                <div class="image-container">
+                    <img src="techmeditation.png" alt="Illustration of person meditating surrounded by technology icons">
+                </div>
+            </div>
+        </section>
+        
+        <section class="schools-earth">
+            <h2 class="zone-title">Earth Consciousness Zone</h2>
+            
+            <h3 class="school-title">School of Organic Farming and Animal Care</h3>
+            <div class="content-block">
+                <div class="text-content">
+                    <h4>Afforestation and Sustainable Farming:</h4>
+                    <p>The Afforestation and Sustainable Farming area is dedicated to environmental restoration and sustainable agriculture. Participants engage in planting trees, maintaining organic gardens, and learning sustainable farming techniques. These activities foster a deep connection with nature and a sense of responsibility towards preserving our planet.</p>
+                    <h4>Animal Care Sanctuary:</h4>
+                    <p>The Animal Care Sanctuary is a safe haven for rescued and rehabilitated animals. Visitors and residents can volunteer to help care for the animals, learn about ethical treatment, and understand the importance of biodiversity. Educational programs and interactive experiences promote compassion and respect for all living beings.</p>
+                </div>
+                <div class="image-container">
+                    <img src="organicfarm.png" alt="Illustration of organic farm and animals">
+                </div>
+            </div>
+
+            <h3 class="school-title">School of Naturopathy and Ayurveda</h3>
+            <div class="content-block">
+                <div class="text-content">
+                    <h4>Naturopathy and Ayurveda Center:</h4> 
+                    <p>The Naturopathy and Ayurveda Center offers treatments and educational programs based on holistic healing practices. Personalized consultations, detox programs, and wellness retreats help individuals restore balance and harmony in their lives. This center emphasizes preventative healthcare and natural remedies to promote overall well-being.</p>
+                    <h4>Herbal Garden:</h4> 
+                    <p>Our Herbal Garden is a living classroom showcasing the medicinal properties of various plants. Visitors can learn about herbal remedies, sustainable harvesting, and the benefits of nature's pharmacy.</p>
+                </div>
+                <div class="image-container">
+                    <img src="naturopathy.png" alt="Illustration of naturopathy and essential oils">
+                </div>
+            </div>
+        </section>
+
+        <section class="schools-spiritual">
+            <h2 class="zone-title">Spiritual Consciousness Zone</h2>
+
+            <h3 class="school-title">School of Yoga and Meditation</h3>
+            <div class="content-block">
+                <div class="text-content">
+                    <h4>Meditation Hall:</h4> 
+                    <p>The Meditation Hall is a serene space designed for mindfulness and inner exploration. Regular meditation sessions, guided practices, and silent retreats are offered to help individuals achieve mental clarity, emotional balance, and spiritual growth.</p>
+                    <h4>Yoga Pavilion:</h4> 
+                    <p>Our Yoga Pavilion provides a tranquil environment for practicing yoga. Classes cater to all levels, focusing on physical postures, breath control, and meditation. Workshops on various yoga disciplines help individuals deepen their practice and connect with their inner selves.</p>
+                </div>
+                <div class="image-container">
+                    <img src="chakrasalignment.png" alt="Person meditating with chakras alignment">
+                </div>
+            </div>
+            
+            <h3 class="school-title">School of Vedas</h3>
+            <div class="content-block">
+                <div class="text-content">
+                    <h4>Religious Studies Library:</h4>
+                    <p>The Religious Studies Library is a resource center for exploring diverse spiritual beliefs and practices. It houses a vast collection of texts on various religions, philosophies, and spiritual traditions. Lectures, study groups, and interfaith dialogues promote tolerance, respect, and unity.</p>
+                    <h4>Vedic Studies Institute:</h4> 
+                    <p>The Vedic Studies Institute offers courses and seminars on the ancient wisdom of the Vedas. Participants learn about Vedic philosophy, rituals, and spiritual practices. This knowledge provides timeless insights and guidance for living a conscious and purposeful life.</p>
+                </div>
+                <div class="image-container">
+                    <img src="vedasbooks.png" alt="Stack of books with Vedas written on them">
+                </div>
+            </div>
+
+            <h3 class="school-title">Zone of Complete Silence</h3>
+            <div class="content-block">
+                <div class="text-content">
+                    <p>The **Zone of Complete Silence** is a sacred space for deep meditation and introspection. Free from distractions, it allows individuals to connect with their highest selves and experience profound inner peace and clarity. Silent retreats and meditation programs are held regularly to facilitate this deep inner work. It is dedicated to achieving ultimate freedom from the constraints of the physical and mental realms. Here, advanced meditation practices and teachings on enlightenment are offered, helping individuals transcend their ego and experience oneness with the universe. This space is designed for those seeking the highest levels of spiritual awakening.</p>
+                    <p>The Find Your Uniqueness Ashram is a sanctuary for holistic growth and the rise of consciousness across multiple realms. By providing diverse spaces and programs that cater to world, earth, spiritual, and supreme consciousness, we empower individuals to embark on a soulful journey of self-discovery and transformation. **Join us in this journey to uncover your true self and contribute to a more compassionate, conscious, and enlightened world.**</p>
+                </div>
+                <div class="image-container">
+                    <img src="floral.png" alt="Meditating person in a bright floral light">
+                </div>
+            </div>
+        </section>
+
+        
+    </main>
+    
+    <section class="newsletter-section">
+        <h3>Wir halten dich auf dem Laufenden</h3>
+        <p>Unser Newsletter informiert dich wöchentlich über neue Videos und gibt dir yogische Inspiration.</p>
+        <form action="#" method="POST">
+            <input type="email" placeholder="E-Mail-Adresse" required>
+            <button type="submit">Newsletter abonnieren</button>
+        </form>
+    </section>
+    
+    <footer>
+        <div class="footer-links">
+            <div class="column">
+                <h4>Yoga-Videos</h4>
+                <ul>
+                    <li>Yoga für Anfänger:innen</li>
+                    <li>Yoga für Fortgeschrittene</li>
+                    <li>Yoga für Gesundheit und Sport</li>
+                    <li>Meditationen</li>
+                    <li>Pranajama</li>
+                    <li>Sonnengruß</li>
+                    <li>Asana Clips</li>
+                    <li>Yoga für Schwangerschaft & Rückbildung</li>
+                    <li>Mantras</li>
+                    <li>Interviews, Berichte und Vorträge</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h4>Yogastile</h4>
+                <ul>
+                    <li>Vinyasa Flow / Power Yoga</li>
+                    <li>Iyengar</li>
+                    <li>Anusara</li>
+                    <li>Kundalini</li>
+                    <li>Hatha</li>
+                    <li>Ashtanga</li>
+                    <li>Jivamukti</li>
+                    <li>Sivananda</li>
+                    <li>Pilates</li>
+                    <li>Yin Yoga</li>
+                    <li>Yogatherapie</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h4>Alles über Yoga im Yoga-Magazin</h4>
+                <ul>
+                    <li>Yoga für Anfänger:innen</li>
+                    <li>Yoga üben</li>
+                    <li>Yoga & Gesundheit</li>
+                    <li>Yoga-Wissen</li>
+                    <li>Yoga-Leben</li>
+                    <li>Ernährung & Rezepte</li>
+                    <li>City Guides & Studios</li>
+                    <li>YogaEasy</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h4>Yoga-Lehrer:innen</h4>
+                <ul>
+                    <li>Yoga-Programme</li>
+                    <li>Preise</li>
+                    <li>Gutscheine</li>
+                    <li>YogaEasy Academy</li>
+                    <li>Podcast</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h4>F&A, Tipps & Verträge</h4>
+                <ul>
+                    <li>Fragen & Antworten</li>
+                    <li>Tipps für deinen Start</li>
+                    <li>Verträge hier kündigen</li>
+                </ul>
+            </div>
+        </div>
+        <div class="social-media">
+            <a href="#"><img src="fb.png" alt="Facebook"></a>
+            <a href="#"><img src="ig.jpg" alt="Instagram"></a>
+            <a href="#"><img src="pint.png" alt="Pinterest"></a>
+            <a href="#"><img src="yt.png" alt="YouTube"></a>
+        </div>
+    </footer>
+</body>
+</html>

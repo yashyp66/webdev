@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Uniqueness</title>
+    <style>
+        /*
+        Color Palette:
+        #008080 - Teal (Primary)
+        #004d4d - Dark Teal (Footer)
+        #eaf6f6 - Light Teal (Accent)
+        #555 - Dark Gray (Text)
+        #f8f8f8 - Light Gray (Background)
+        */
+
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Playfair+Display:wght@700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #555;
+            background-color: #f8f8f8;
+            transition: background-color 0.3s ease;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: #008080;
+            margin-bottom: 0.5em;
+        }
+
+        section {
+            padding: 80px 5%;
+        }
+
+        /* Header and Navigation */
+        header {
+            background-color: white;
+            padding: 20px 5%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 45px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #008080;
+        }
+
+        .nav-right a {
+            color: #008080;
+            border: 2px solid #008080;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .nav-right a:hover {
+            background-color: #008080;
+            color: white;
+        }
+
+        /* Hero Section */
+        .counselling-hero {
+            padding: 100px 5%;
+            text-align: center;
+            background-color: white;
+        }
+
+        .counselling-hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 0.2em;
+        }
+
+        .counselling-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 60px auto 0;
+        }
+
+        .counselling-content .text-content {
+            flex: 1;
+            text-align: left;
+        }
+
+        .counselling-content .image-placeholder {
+            flex-shrink: 0;
+        }
+
+        .counselling-content .image-placeholder img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Impact Section */
+        .impact-section {
+            background-color: #eaf6f6;
+            text-align: center;
+        }
+
+        .impact-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            margin-top: 40px;
+            max-width: 1200px;
+            margin: 40px auto 0;
+        }
+
+        .impact-content .text-list {
+            flex: 1;
+            text-align: left;
+        }
+
+        .impact-content .image-placeholder img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+        }
+
+        .impact-content ol {
+            list-style: none;
+            padding: 0;
+        }
+
+        .impact-content li {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .impact-content li::before {
+            content: "•";
+            color: #008080;
+            font-size: 1.5em;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            background-color: white;
+            padding: 80px 5%;
+        }
+
+        .services-grid h2 {
+            text-align: center;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .grid-item {
+            background-color: #eaf6f6;
+            padding: 60px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .grid-item h2 {
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        /* Numerology Section */
+        .numerology-section {
+            background-color: #f8f8f8;
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .numerology-section .content-box {
+            background-color: #eaf6f6;
+            padding: 80px;
+            border-radius: 15px;
+            max-width: 450px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            background-color: #008080;
+            color: white;
+            text-align: center;
+            padding: 60px 5%;
+        }
+
+        .newsletter-section h3 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            color: white;
+        }
+
+        .newsletter-section p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .newsletter-section form {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .newsletter-section input {
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: none;
+            width: 300px;
+            font-size: 1em;
+        }
+
+        .newsletter-section button {
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            background-color: white;
+            color: #008080;
+            font-weight: bold;
+            font-size: 1em;
+            transition: transform 0.2s ease;
+        }
+
+        .newsletter-section button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #004d4d;
+            color: #fff;
+            padding: 60px 5%;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .footer-links h4 {
+            color: white;
+            font-size: 1.2em;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #fff;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .social-media {
+            text-align: center;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 40px;
+        }
+
+        .social-media a {
+            margin: 0 12px;
+            display: inline-block;
+        }
+
+        .social-media img {
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .social-media img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .counselling-content, .impact-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .counselling-content .text-content, .impact-content .text-list {
+                text-align: center;
+            }
+
+            .numerology-section .content-box {
+                padding: 40px;
+            }
+
+            .newsletter-section form {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="logo.png" alt="Find Your Uniqueness Logo">
+            </div>
+            <ul>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="schools.html">Schools</a></li>
+                <li><a href="cnslg.html">Counselling</a></li>
+                <li><a href="testimonials.html">Testimonials</a></li>
+                <li><a href="#">Contribution</a></li>
+                <li><a href="joa.html">Blog</a></li>
+                <li><a href="aboutus.html">Contact Us</a></li>
+            </ul>
+            <div class="nav-right">
+                <a href="login.html">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="counselling-hero">
+            <h1>Counselling</h1>
+            <div class="counselling-content">
+                <div class="text-content">
+                    <h2>The Power of Empathetic Counseling in Today's Fast-Paced World</h2>
+                    <p>In today's fast-paced world, where time is a scarce commodity, people often struggle to find moments to truly listen to others. This lack of genuine connection makes it increasingly difficult to harness and cultivate empathy. Empathetic counseling, however, offers a transformative solution, bringing profound changes to people's lives by fostering a deep sense of understanding and connection.</p>
+                    <p>It creates a space where the speaker and listener become one. In this therapeutic setting, the counselor practices active listening, not just hearing the words spoken but truly understanding the emotions and underlying messages. This deep level of engagement allows the counselor to connect with the client's experience on a fundamental level, fostering a sense of being seen, heard, and understood. This connection can be incredibly healing, as it allows individuals to feel supported and validated in their experiences.</p>
+                </div>
+                <div class="image-placeholder">
+                    <img src="cnslgwclint.png" alt="Illustration of a counselor and client">
+                </div>
+            </div>
+        </section>
+
+        <section class="impact-section">
+            <h2>The Impact of Oneness and Empathy</h2>
+            <div class="impact-content">
+                <div class="text-list">
+                    <p>People who possess the quality of oneness and practice empathetic counseling can do wonders in the world. Their ability to connect deeply with others brings about several positive changes:</p>
+                    <ol>
+                        <li><strong>Emotional Healing:</strong> Clients often experience a sense of relief and healing when they feel genuinely understood. This emotional validation can reduce feelings of isolation and promote mental well-being.</li>
+                        <li><strong>Enhanced Relationships:</strong> Empathy fosters better communication and understanding in relationships, leading to stronger, more meaningful connections with others.</li>
+                        <li><strong>Personal Growth:</strong> By experiencing empathy and oneness, individuals gain insights into their own emotions and behaviors, facilitating personal growth and self-awareness.</li>
+                        <li><strong>Social Impact:</strong> Empathetic individuals contribute to a more compassionate society. Their ability to understand and care for others can inspire positive change in communities and beyond.</li>
+                        <li><strong>Conflict Resolution:</strong> Empathy plays a crucial role in resolving conflicts, as it allows for a deeper understanding of different perspectives and fosters collaborative solutions.</li>
+                    </ol>
+                </div>
+                <div class="image-placeholder">
+                    <img src="empathy.png" alt="Diagram showing Empathy, Active Listening, Insight, and Understanding">
+                </div>
+            </div>
+        </section>
+
+        <section class="services-grid">
+            <div class="grid-container">
+                <div class="grid-item">
+                    <h2>Twin Flame</h2>
+                </div>
+                <div class="grid-item">
+                    <h2>nlp</h2>
+                </div>
+                <div class="grid-item">
+                    <h2>energy healing</h2>
+                </div>
+                <div class="grid-item">
+                    <h2>meditation</h2>
+                </div>
+            </div>
+        </section>
+
+        <section class="numerology-section">
+            <div class="content-box">
+                <h2>numerology</h2>
+            </div>
+        </section>
+    </main>
+
+    <section class="newsletter-section">
+        <h3>Wir halten dich auf dem Laufenden</h3>
+        <p>Unser Newsletter informiert dich wöchentlich über neue Videos und gibt dir yogische Inspiration.</p>
+        <form action="#" method="POST">
+            <input type="email" placeholder="E-Mail-Adresse" required>
+            <button type="submit">Newsletter abonnieren</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <div class="column">
+                <h4>Yoga-Videos</h4>
+                <ul>
+                    <li>Yoga für Anfänger:innen</li>
+                    <li>Yoga für Fortgeschrittene</li>
+                    <li>Yoga für Gesundheit und Sport</li>
+                    <li>Meditationen</li>
+                    <li>Pranajama</li>
+                    <li>Sonnengruß</li>
+                    <li>Asana Clips</li>
+                    <li>Yoga für Schwangerschaft & Rückbildung</li>
+                    <li>Mantras</li>
+                    <li>Interviews, Berichte und Vorträge</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h4>Yogastile</h4>
+                <ul>
+                    <li>Vinyasa Flow / Power Yoga</li>
+                    <li>Iyengar</li>
+                    <li>Anusara</li>
+                    <li>Kundalini</li>
+                    <li>Hatha</li>
+                    <li>Ashtanga</li>
+                    <li>Jivamukti</li>
+                    <li>Sivananda</li>
+                    <li>Pilates</li>
+                    <li>Yin Yoga</li>
+                    <li>Yogatherapie</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h4>Alles über Yoga im Yoga-Magazin</h4>
+                <ul>
+                    <li>Yoga für Anfänger:innen</li>
+                    <li>Yoga üben</li>
+                    <li>Yoga & Gesundheit</li>
+                    <li>Yoga-Wissen</li>
+                    <li>Yoga-Leben</li>
+                    <li>Ernährung & Rezepte</li>
+                    <li>City Guides & Studios</li>
+                    <li>YogaEasy</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h4>Yoga-Lehrer:innen</h4>
+                <ul>
+                    <li>Yoga-Programme</li>
+                    <li>Preise</li>
+                    <li>Gutscheine</li>
+                    <li>YogaEasy Academy</li>
+                    <li>Podcast</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h4>F&A, Tipps & Verträge</h4>
+                <ul>
+                    <li>Fragen & Antworten</li>
+                    <li>Tipps für deinen Start</li>
+                    <li>Verträge hier kündigen</li>
+                </ul>
+            </div>
+        </div>
+        <div class="social-media">
+            <a href="#"><img src="fb.png" alt="Facebook"></a>
+            <a href="#"><img src="ig.jpg" alt="Instagram"></a>
+            <a href="#"><img src="pint.png" alt="Pinterest"></a>
+            <a href="#"><img src="yt.png" alt="YouTube"></a>
+        </div>
+    </footer>
+</body>
+</html>
